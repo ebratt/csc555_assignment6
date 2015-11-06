@@ -1,0 +1,6 @@
+IP Address,MalwareName
+192.0.0.1,TrojanHorse
+192.0.0.1,SpyEye
+192.0.0.1,Zbot
+172.0.0.1,SpyEye
+65.123.21.35,SpyEye

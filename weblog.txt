@@ -1,0 +1,8 @@
+IP Address,Size,Date,File,Agent,ResultCode
+192.0.0.1,10000,20151103,myFile.txt,Agent1,RES1
+192.0.0.1,600,20151104,myFile.txt,Agent1,RES1
+192.0.0.1,700,20151105,myFile.txt,Agent1,RES1
+192.0.0.2,800,20151104,myFile.txt,Agent1,RES1
+192.0.0.2,900,20151105,myFile.txt,Agent1,RES1
+192.0.0.1,12200,20151103,myFile.txt,Agent1,RES1
+172.0.0.1,25000,20151103,myFile.txt,Agent1,RES1
