@@ -25,7 +25,7 @@ public class MyJoinDriverPass2 extends Configured implements Tool {
 		job.setJarByClass(MyJoinDriverPass2.class);
 		job.setNumReduceTasks(1); // debugging
 		job.setMapOutputKeyClass(Text.class);
-		job.setMapOutputValueClass(LongWritable.class);
+		job.setMapOutputValueClass(Text.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(LongWritable.class);
 

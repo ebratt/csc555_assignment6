@@ -27,7 +27,7 @@ public class MyJoinDriverPass1 extends Configured
     job.setMapperClass(MyJoinMapperPass1.class);
     job.setReducerClass(MyJoinReducerPass1.class);
     job.setJarByClass(MyJoinDriverPass1.class);
-//    job.setNumReduceTasks(1);		// debugging
+    job.setNumReduceTasks(1);		// debugging
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(Text.class);
     job.setOutputKeyClass(Text.class);

@@ -5,10 +5,14 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class MyJoinMapperPass2 extends Mapper<Text, Text, Text, LongWritable> {
-	private LongWritable _one = new LongWritable(1);
+public class MyJoinMapperPass2 extends Mapper<LongWritable, Text, Text, Text> {
+	private Text _malware = new Text();
+	private Text _address = new Text();
 
-	public void map(Text key, LongWritable value, Context context) throws IOException, InterruptedException {
-		context.write(key, _one);
+	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+		String line = value.toString();
+		_malware.set(line.split("\\t")[0]);
+		_address.set(line.split("\\t")[1]);
+		context.write(_malware, _address);
 	}
 }

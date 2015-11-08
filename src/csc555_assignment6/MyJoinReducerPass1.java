@@ -2,7 +2,6 @@ package csc555_assignment6;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -11,8 +10,6 @@ import org.apache.log4j.Logger;
 public class MyJoinReducerPass1 extends Reducer<Text, Text, Text, Text> {
 	private Text _malware = new Text();
 	private Logger logger = Logger.getLogger(MyJoinReducerPass1.class);
-	private ArrayList<String> weblogValues = new ArrayList<String>();
-	private ArrayList<Text> infectedValues = new ArrayList<Text>();
 
 	/**
 	 * @param key:
@@ -20,36 +17,41 @@ public class MyJoinReducerPass1 extends Reducer<Text, Text, Text, Text> {
 	 * @param values:
 	 *            example [i_TrojanHorse,i_SpyEye,w_,w_,i_Zbot]
 	 */
-	protected void reduce(Text key, Iterator<Text> values, Context context) throws IOException, InterruptedException {
-
-		logger.info("key: " + key.toString());
-		boolean weblogFlag = false;
-
-		while (values.hasNext()) {
-			Text val = values.next();
-			String source = val.toString().split("_")[0];
-			if (source.equals("w"))
-				weblogValues.add(val.toString());
-			else
-				infectedValues.add(val);
-			source = null;
+	protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+		// List<Text> weblogValues = new ArrayList<Text>();
+		// List<Text> infectedValues = new ArrayList<Text>();
+		ArrayList<String> values1 = new ArrayList<String>();
+		ArrayList<String> values2 = new ArrayList<String>();
+		StringBuffer sb = new StringBuffer();
+		sb.append("[");
+		for (Text val : values) {
+			sb.append(val.toString());
+			sb.append(",");
+			values1.add(val.toString());
+			values2.add(val.toString());
+			// String tag = val.toString().split("_")[0];
+			// if (tag.equals("w")) weblogValues.add(val);
+			// else if (tag.equals("i")) infectedValues.add(val);
 		}
-
-		logger.info("weblogValues: " + weblogValues.toString());
-		logger.info("infectedValues: " + infectedValues.toString());
-
-		if (weblogValues.size() > 0)
-			weblogFlag = true;
-
-		if (weblogFlag) {
-			for (Text iv : infectedValues) {
-				logger.info("iv.toString(); " + iv.toString());
-				String malware = iv.toString().split("_")[1];
-				this._malware.set(malware);
-				context.write(_malware, key);
+		sb.append("]");
+		logger.info("key: " + key);
+		logger.info("values: " + sb.toString());
+		// logger.info("weblogValues: " + weblogValues);
+		// logger.info("infectedValues: " + infectedValues);
+		logger.info("values1: " + values1);
+		logger.info("values2: " + values2);
+		for (String val1 : values1) {
+			String tag1 = val1.toString().split("_")[0];
+			logger.info("tag1: " + tag1);
+			for (String val2 : values2) {
+				String tag2 = val2.toString().split("_")[0];
+				logger.info("tag2: " + tag2);
+				if (tag1.equals("w") && tag2.equals("i")) {
+					String malware = val2.toString().split("_")[1];
+					_malware.set(malware);
+					context.write(_malware, key);
+				}
 			}
 		}
-		weblogValues.clear();
-		infectedValues.clear();
 	}
 }
